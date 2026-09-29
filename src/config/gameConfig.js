@@ -11,6 +11,7 @@ export const GAME_CONFIG = {
   yodaAnswer: "JEDI",   // Screen 4  - letters only, not case sensitive
   finalCode: "7492",    // Screen 6  - Final Holocron code (keypad is scrambled)
   timeLimitSeconds: 20 * 60,
+  tickFromSeconds: 10 * 60, // ticking starts at the 10th minute left
   amberAtSeconds: 5 * 60,   // timer turns amber
   redAtSeconds: 2 * 60,     // timer turns red + "LINK UNSTABLE"
 };
@@ -58,7 +59,7 @@ export const SOUNDS = {
   transition: { file: "/assets/sounds/transition.mp3", volume: 0.55, maxMs: 2600, fadeOutMs: 1000 },
   victory:    { file: "/assets/sounds/victory.mp3",    volume: 0.8, stream: true, fadeInMs: 1500, stopAmbient: true },
   // Plays once per second once the clock drops below amberAtSeconds (see App.jsx). Kept quiet on purpose.
-  tick:       { file: "/assets/sounds/tick.mp3",       volume: 0.15 },
+  tick:       { file: "/assets/sounds/tick.mp3",       volume: 0.3 },
 };
 
 // ---------- 5. TINY TECHNICAL TEXT (bottom-left of every screen) ----------

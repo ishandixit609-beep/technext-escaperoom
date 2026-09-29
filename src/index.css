@@ -217,3 +217,131 @@ h1, .quote, .label, .note, .badge, .cp-eyebrow, .cp-title, .tap-prompt, .rec-row
     -1.5px -1.5px 0 rgba(0,0,0,.9), 1.5px -1.5px 0 rgba(0,0,0,.9),
     -1.5px  1.5px 0 rgba(0,0,0,.9), 1.5px  1.5px 0 rgba(0,0,0,.9),
     0 3px 12px rgba(0,0,0,.85), 0 0 16px rgba(239,83,80,.65); }
+/* ================= MINIMAL + BOLD OVERRIDES ================= */
+.meta, .scan, .corner, .pc, .sb-mid, .sb-left small, .cp-eyebrow, .sweep, .badge { display: none !important; }
+.edge-fade { background: linear-gradient(rgba(0,0,0,.35), transparent 20%, transparent 75%, rgba(0,0,0,.45)); }
+.status-bar { height: 76px; background: transparent; border-bottom: none; backdrop-filter: none; }
+.status-bar .timer { font-size: 46px; font-weight: 800; letter-spacing: .04em; }
+.sb-left b { font-size: 14px; font-weight: 800; }
+h1 { font-weight: 800; letter-spacing: .06em;
+  text-shadow: 0 2px 0 rgba(0,0,0,.55), 0 6px 22px rgba(0,0,0,.8), 0 0 34px rgba(46,230,172,.45); }
+.quote { font-weight: 600; }
+.label, .note { font-weight: 700; }
+.code-panel { background: rgba(0,0,0,.5); border: 1px solid var(--line); padding: 26px 30px; }
+.cp-title { font-weight: 800; font-size: 14px; margin-bottom: 14px; }
+.slots span, .key, .keys .key, .keys-alpha .key { text-shadow: none; font-weight: 700; border-width: 1px; }
+.key { font-size: 24px; }
+.key-wide { font-size: 12px; letter-spacing: .1em; padding: 0; white-space: nowrap; }
+.key-enter { font-weight: 800; font-size: 12px; letter-spacing: .12em; }
+.holo-btn { font-weight: 800; }
+
+/* final screen: press ENTER x3 */
+.pips { display: flex; gap: 18px; margin: 10px 0 6px; height: 62px; align-items: center; }
+.pips span { width: 46px; height: 46px; border-radius: 50%; border: 2px solid var(--line); background: rgba(255,255,255,.03); transition: all .25s; }
+.pips span.on { background: var(--g); border-color: var(--g); box-shadow: 0 0 26px var(--g), 0 0 60px var(--g-dim); animation: pop .5s cubic-bezier(.2,1.6,.4,1); }
+.keypad:has(.pips) .keys { animation: thump .35s; }
+.keypad.ok .pips span { animation: pop .6s cubic-bezier(.2,1.6,.4,1), glowup 1.6s ease-out forwards; }
+@keyframes pop { 0% { transform: scale(.5); } 100% { transform: scale(1); } }
+@keyframes thump { 30% { transform: scale(.985); } }
+@keyframes glowup { to { box-shadow: 0 0 60px var(--g), 0 0 140px var(--g); } }
+
+/* ================= ROUND 3: separator, timer, shadows, subtle motion ================= */
+.status-bar { background: linear-gradient(rgba(0,0,0,.6), rgba(0,0,0,.25)); position: relative; }
+.status-bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--g) 20%, var(--g) 80%, transparent);
+  box-shadow: 0 0 14px var(--g); opacity: .75; }
+.status-bar::before { content: ""; position: absolute; bottom: 0; left: -30%; width: 30%; height: 2px; z-index: 1;
+  background: linear-gradient(90deg, transparent, #fff, transparent); animation: scanline 4.5s ease-in-out infinite; }
+.status-bar .timer { padding: 4px 22px; border: 2px solid var(--g-dim); border-radius: 14px; background: rgba(0,0,0,.45);
+  font-size: 44px; font-weight: 800; line-height: 1.15; color: #fff;
+  text-shadow: 0 0 10px var(--g), 0 0 28px var(--g), 2px 3px 0 rgba(0,0,0,.8);
+  box-shadow: 0 0 22px rgba(46,230,172,.25), inset 0 0 14px rgba(46,230,172,.12); }
+.timer .colon { font-style: normal; animation: colon 1s steps(2) infinite; }
+.status-bar .timer.amber { border-color: rgba(232,178,60,.6); text-shadow: 0 0 10px var(--amber), 0 0 28px var(--amber), 2px 3px 0 rgba(0,0,0,.8); box-shadow: 0 0 22px rgba(232,178,60,.3); }
+.status-bar .timer.red { border-color: rgba(239,83,80,.7); text-shadow: 0 0 10px var(--red), 0 0 30px var(--red), 2px 3px 0 rgba(0,0,0,.8); box-shadow: 0 0 26px rgba(239,83,80,.4); animation: heartbeat 1s ease-in-out infinite; }
+
+h1 { text-shadow: 3px 4px 0 rgba(0,0,0,.9), 0 0 30px rgba(46,230,172,.75), 0 10px 30px rgba(0,0,0,.95) !important; }
+.quote, .label, .note, .cp-title { text-shadow: 2px 2px 0 rgba(0,0,0,.9), 0 0 16px rgba(0,0,0,.9), 0 0 14px rgba(46,230,172,.35) !important; }
+
+/* entrance: everything rises in gently, staggered */
+.col > *, .stage.center > *, .code-panel { animation: rise .7s cubic-bezier(.2,.8,.2,1) both; }
+.col > *:nth-child(2), .stage.center > *:nth-child(2) { animation-delay: .1s; }
+.col > *:nth-child(3), .stage.center > *:nth-child(3) { animation-delay: .2s; }
+.stage.center > *:nth-child(4) { animation-delay: .3s; }
+.stage.center > *:nth-child(5) { animation-delay: .4s; }
+.code-panel { animation-delay: .25s; }
+
+/* keys: lift on hover, ripple-y press, ENTER breathes */
+.key { transition: transform .15s, border-color .15s, box-shadow .2s, background .2s; }
+.key:hover { transform: translateY(-2px); }
+.key:active { transform: scale(.92); background: rgba(46,230,172,.25); }
+.key-enter { animation: breathe 2.4s ease-in-out infinite; }
+.slots span.filled { animation: pop .3s cubic-bezier(.2,1.6,.4,1); }
+.slots span.active { animation: caret 1.2s ease-in-out infinite; }
+.holo-btn { transition: transform .15s, box-shadow .2s, border-color .2s; }
+.holo-btn:hover { transform: translateY(-2px); }
+.dot { animation-duration: 1.8s; }
+.keypad.ok .slots span, .keypad.ok .pips span { box-shadow: 0 0 24px var(--g); }
+
+@keyframes rise { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: none; } }
+@keyframes scanline { 0% { left: -30%; } 60%, 100% { left: 110%; } }
+@keyframes colon { 50% { opacity: .15; } }
+@keyframes heartbeat { 0%, 100% { transform: scale(1); } 15% { transform: scale(1.06); } 30% { transform: scale(1); } }
+@keyframes breathe { 50% { box-shadow: 0 0 22px var(--g), 0 0 4px var(--g); } }
+@keyframes caret { 50% { border-color: var(--g-dim); box-shadow: 0 0 4px var(--g-dim); } }
+
+/* ================= ROUND 4: accents per screen, HUD, motion ================= */
+.frame[data-screen="1"] { --g: #e8b23c; --g-dim: rgba(232,178,60,.38); }   /* temple: gold */
+.frame[data-screen="2"] { --g: #58b8ff; --g-dim: rgba(88,184,255,.38); }   /* blaster: saber blue */
+.frame[data-screen="4"] { --g: #6fe3ff; --g-dim: rgba(111,227,255,.38); }  /* force: cyan */
+.frame[data-screen="6"] { --g: #f0c75e; --g-dim: rgba(240,199,94,.4); }    /* victory: gold */
+.frame { transition: none; }
+.frame .status-bar::after, .frame .cp-tick, .frame .key-enter { transition: background .8s, box-shadow .8s; }
+
+/* HUD corner brackets + panel corners are back, in the accent colour */
+.corner, .pc { display: block !important; }
+.corner { width: 38px; height: 38px; opacity: .85; animation: cornerPulse 4s ease-in-out infinite; }
+.corner::before, .corner::after { background: var(--g); box-shadow: 0 0 8px var(--g); }
+.corner.tl { top: 92px; left: 18px; } .corner.tr { top: 92px; right: 18px; }
+.corner.bl { bottom: 18px; left: 18px; } .corner.br { bottom: 18px; right: 18px; }
+.pc { width: 14px; height: 14px; }
+.code-panel { animation: rise .7s cubic-bezier(.2,.8,.2,1) both, panelGlow 5s ease-in-out infinite 1s; }
+
+/* Jedi emblem */
+.emblem-wrap { color: var(--g); display: grid; place-items: center; filter: drop-shadow(0 0 6px var(--g)); animation: emblem 4s ease-in-out infinite; }
+.emblem-wrap.red-text { color: var(--red); filter: drop-shadow(0 0 6px var(--red)); }
+.jedi-emblem { display: block; }
+.sb-left b { text-shadow: 2px 2px 0 rgba(0,0,0,.9), 0 0 14px rgba(0,0,0,.9) !important; }
+
+/* particles + holocron gem */
+.particles { position: absolute; inset: 0; z-index: 3; pointer-events: none; color: var(--g); }
+.holo-gem { position: absolute; left: 50%; bottom: 20px; width: 58px; height: 58px; margin-left: -29px; z-index: 4; pointer-events: none;
+  color: var(--g); opacity: .8; filter: drop-shadow(0 0 8px var(--g)); }
+.gem-ring { transform-origin: 50px 50px; animation: spin 24s linear infinite; }
+.gem-core { transform-origin: 50px 50px; animation: gemturn 9s ease-in-out infinite; }
+
+/* cinematic slow push on the background art */
+.frame-bg.on { animation: kenburns 26s ease-in-out infinite alternate; }
+
+/* final screen: ENTER is deliberately unremarkable, progress dots are tiny */
+.keypad.subtle .key-enter { background: rgba(255,255,255,.03); border: 1px solid var(--line); color: var(--ink-dim); font-weight: 700; animation: none; box-shadow: none; }
+.keypad.subtle .key-enter:active { background: rgba(46,230,172,.12); }
+.keypad.subtle .pips { height: 14px; margin: 2px 0 0; gap: 9px; opacity: .55; }
+.keypad.subtle .pips span { width: 8px; height: 8px; border-width: 1px; }
+.keypad.subtle .pips span.on { box-shadow: 0 0 10px var(--g); animation: pop .4s cubic-bezier(.2,1.6,.4,1); }
+.keypad.ok.subtle .pips { opacity: 1; }
+.keypad.ok.subtle .pips span { width: 12px; height: 12px; box-shadow: 0 0 24px var(--g), 0 0 60px var(--g); }
+
+/* glow colours follow the accent */
+h1 { text-shadow: 3px 4px 0 rgba(0,0,0,.9), 0 0 30px color-mix(in srgb, var(--g) 75%, transparent), 0 10px 30px rgba(0,0,0,.95) !important; }
+.quote, .label, .note, .cp-title { text-shadow: 2px 2px 0 rgba(0,0,0,.9), 0 0 16px rgba(0,0,0,.9), 0 0 14px color-mix(in srgb, var(--g) 40%, transparent) !important; }
+.key:hover, .key:active { background: color-mix(in srgb, var(--g) 12%, transparent); }
+.slots span.active { border-color: var(--g); }
+
+@keyframes cornerPulse { 50% { opacity: .35; } }
+@keyframes panelGlow { 50% { box-shadow: 0 0 26px var(--g-dim), inset 0 0 18px rgba(0,0,0,.4); } }
+@keyframes emblem { 50% { opacity: .65; transform: scale(.94); } }
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes gemturn { 0%, 100% { transform: scaleX(1); } 50% { transform: scaleX(.55); } }
+@keyframes kenburns { from { transform: scale(1); } to { transform: scale(1.07); } }
+@media (prefers-reduced-motion: reduce) { .frame-bg.on, .particles { animation: none; } }

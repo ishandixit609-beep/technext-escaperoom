@@ -1,5 +1,4 @@
 import CodePanel from '../components/CodePanel';
-import { GAME_CONFIG } from '../config/gameConfig';
 export default function FinalCode({ next }) {
   return (
     <div className="stage code-stage">
@@ -13,7 +12,7 @@ export default function FinalCode({ next }) {
         </p>
       </div>
       <CodePanel eyebrow="FINAL ACCESS" title="ENTER FINAL ACCESS CODE" scramble
-        length={4} dramatic successDelay={2400} check={(c) => c === GAME_CONFIG.finalCode} onSuccess={next} />
+        length={4} dramatic successDelay={2400} enterCount={3} check={() => false} onSuccess={next} />
     </div>
   );
 }

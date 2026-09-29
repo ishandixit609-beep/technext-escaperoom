@@ -34,7 +34,7 @@ export default function App() {
     const id = setInterval(() => setTimeLeft((t) => {
       const nt = Math.max(0, t - 1);
       // Quiet clock-tick once under the amber threshold (5:00 by default in gameConfig).
-      if (nt > 0 && nt <= GAME_CONFIG.amberAtSeconds) play('tick');
+      if (nt > 0 && nt <= GAME_CONFIG.tickFromSeconds) play('tick');
       return nt;
     }), 1000);
     return () => clearInterval(id);

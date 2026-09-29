@@ -12,24 +12,34 @@ function shuffled(arr) {
   return a;
 }
 
-// mode="numeric" (default) or "alpha" (on-screen letters, so the iPad's own keyboard never pops up).
-// scramble=true shuffles the 0-9 buttons into random positions once per mount (CLEAR/ENTER stay put) - a bit of extra friction on the final code.
-// A physical keyboard also works, which is handy while testing.
-export default function Keypad({ length, check, onSuccess, onFirstInput, successDelay = 1600, dramatic, mode = 'numeric', scramble = false }) {
+// scramble (default on): digits are shuffled on every mount and after every wrong attempt.
+// enterCount=N: any typed code is rejected; pressing ENTER N times in a row with nothing typed opens the lock.
+export default function Keypad({ length, check, onSuccess, onFirstInput, successDelay = 1600, dramatic, mode = 'numeric', scramble = true, allowEmpty = false, enterCount = 0 }) {
   const [digits, setDigits] = useState('');
   const [status, setStatus] = useState('idle');
+  const [round, setRound] = useState(0);
+  const [charge, setCharge] = useState(0);
   const first = useRef(true);
-  const order = useMemo(() => (scramble ? shuffled(DIGITS) : DIGITS), [scramble]);
+  const order = useMemo(() => (scramble ? shuffled(DIGITS) : DIGITS), [scramble, round]);
+
+  const fail = useCallback(() => {
+    setStatus('error'); play('error');
+    setTimeout(() => { setStatus('idle'); setDigits(''); setRound((r) => r + 1); }, 1300);
+  }, []);
+  const win = useCallback(() => {
+    setStatus('ok'); play('success'); setTimeout(onSuccess, successDelay);
+  }, [onSuccess, successDelay]);
 
   const submit = useCallback(() => {
-    if (!digits) return;
-    if (check(digits)) {
-      setStatus('ok'); play('success'); setTimeout(onSuccess, successDelay);
-    } else {
-      setStatus('error'); play('error');
-      setTimeout(() => { setStatus('idle'); setDigits(''); }, 1300);
+    if (enterCount) {
+      if (digits) { setCharge(0); return fail(); }
+      const n = charge + 1; setCharge(n);
+      if (n < enterCount) return play('click');
+      return win();
     }
-  }, [digits, check, onSuccess, successDelay]);
+    if (!digits && !allowEmpty) return;
+    if (check(digits)) win(); else fail();
+  }, [digits, check, allowEmpty, enterCount, charge, fail, win]);
 
   const press = useCallback((k) => {
     if (status !== 'idle') return;
@@ -58,7 +68,7 @@ export default function Keypad({ length, check, onSuccess, onFirstInput, success
     </button>
   );
   return (
-    <div className={`keypad ${status} ${mode}`}>
+    <div className={`keypad ${status} ${mode} ${enterCount ? 'subtle' : ''}`}>
       {status === 'error' && <div className="flash-red" />}
       {status === 'ok' && dramatic && <div className="energy-pulse" />}
       <div className="slots">
@@ -68,6 +78,11 @@ export default function Keypad({ length, check, onSuccess, onFirstInput, success
           </span>
         ))}
       </div>
+      {enterCount > 0 && (
+        <div className="pips" key={charge}>
+          {Array.from({ length: enterCount }, (_, i) => <span key={i} className={i < charge ? 'on' : ''} />)}
+        </div>
+      )}
       <div className="keypad-msg">
         {status === 'error' ? <span className="red-text">ACCESS DENIED · TRY AGAIN</span>
           : status === 'ok' ? <span className="ok-text">ACCESS GRANTED</span> : '\u00A0'}
