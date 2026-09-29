@@ -15,7 +15,8 @@ export default function HolocronFrame({ bgKey, screen, intense, children }) {
       ))}
       <div className="edge-fade" />
       <Particles />
-      <HoloGem />
+      {(screen === 0 || screen === 5) && <HoloGem place="behind" />}
+      {screen === 6 && <HoloGem place="center" />}
       <div className="scan" />
       <i className="corner tl" /><i className="corner tr" /><i className="corner bl" /><i className="corner br" />
       {children}

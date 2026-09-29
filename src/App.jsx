@@ -52,6 +52,7 @@ export default function App() {
   }, []);
 
   const next = useCallback(() => setScreen((s) => Math.min(s + 1, LAST)), []);
+  const prev = () => { play('click'); setScreen((s) => Math.max(s - 1, 0)); };
   const reset = () => {
     setScreen(0); setTimeLeft(GAME_CONFIG.timeLimitSeconds); setRunning(false);
     setOrganizer(false); setRunId((r) => r + 1);
@@ -89,6 +90,7 @@ export default function App() {
             </AnimatePresence>
           )}
         </div>
+        {screen > 0 && screen < LAST && !expired && <button className="back-btn" onClick={prev}>‹</button>}
       </div>
       <div className="hotspot" onPointerDown={hotspot} />
       {organizer && (
