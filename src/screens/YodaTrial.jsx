@@ -22,7 +22,9 @@ export default function YodaTrial({ next }) {
       <p className="quote big-quote">
         “What is heard is not always spoken.<br />
         What is folded is not always hidden.<br />
-        Seek the wisdom closest to the old master.”
+        Seek the wisdom closest to the old master.<br />
+        A Jedi does not fear the darkness.<br />
+        He knows that some truths appear only when the right light is found.”
       </p>
       <HologramButton variant="large" onClick={() => setPhase('answer')}>BEGIN TRIAL</HologramButton>
     </div>
@@ -31,7 +33,12 @@ export default function YodaTrial({ next }) {
     <div className="stage center">{yoda}
       {status === 'error' && <div className="flash-red" />}
       {status === 'ok' ? (<><h1>TRIAL ACCEPTED</h1><p className="quote big-quote">THE FORCE REMEMBERS.</p></>) : (<>
-        <p className="quote big-quote">“But the Jedi do not listen like the others.”</p>
+        <p className="quote big-quote">
+          “The wise speak where ears cannot see.<br />
+          Let their voice awaken the light.<br />
+          Then place the light beneath the keeper of wisdom.<br />
+          What hides above will answer below.”
+        </p>
         <input className={`holo-input ${status}`} value={val} onChange={(e) => setVal(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && submit()}
           placeholder="ENTER ANSWER" autoCapitalize="characters" autoCorrect="off" autoComplete="off" spellCheck="false" />
         <div className="keypad-msg">{status === 'error' ? <span className="red-text">ACCESS DENIED · TRY AGAIN</span> : '\u00A0'}</div>

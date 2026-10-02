@@ -349,3 +349,31 @@ h1 { font-weight: 800; letter-spacing: .06em; color: #fff;
   text-shadow: 1px 1px 0 rgba(0,0,0,.9); transition: border-color .15s, box-shadow .15s, transform .12s; }
 .back-btn:hover { border-color: var(--g); box-shadow: 0 0 14px var(--g-dim); }
 .back-btn:active { transform: scale(.94); }
+/* ===== clue text, keypad polish, dead-key effects on the final lock ===== */
+.quote.clue { font-size: 17px; line-height: 1.55; margin-top: 16px; max-width: 460px; font-weight: 600; }
+.key { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--g) 40%, transparent), inset 0 -3px 0 color-mix(in srgb, var(--g) 22%, transparent); }
+.key:active { transition: none; }
+.slots { gap: 12px; }
+
+/* final lock: digits are dead - they jitter on their own and rattle red when touched */
+.keypad.subtle .keys .key:not(.key-wide) { animation: jitter 3.6s ease-in-out infinite; }
+.keypad.subtle .keys .key:nth-child(1) { animation-delay: 0.53s; }
+.keypad.subtle .keys .key:nth-child(2) { animation-delay: 1.06s; }
+.keypad.subtle .keys .key:nth-child(3) { animation-delay: 1.59s; }
+.keypad.subtle .keys .key:nth-child(4) { animation-delay: 2.12s; }
+.keypad.subtle .keys .key:nth-child(5) { animation-delay: 2.65s; }
+.keypad.subtle .keys .key:nth-child(6) { animation-delay: 3.18s; }
+.keypad.subtle .keys .key:nth-child(7) { animation-delay: 0.31s; }
+.keypad.subtle .keys .key:nth-child(8) { animation-delay: 0.84s; }
+.keypad.subtle .keys .key:nth-child(9) { animation-delay: 1.37s; }
+.keypad.subtle .keys .key:nth-child(10) { animation-delay: 1.90s; }
+.keypad.subtle .keys .key:nth-child(11) { animation-delay: 2.43s; }
+.keypad.subtle .keys .key:nth-child(12) { animation-delay: 2.96s; }
+@keyframes jitter { 0%, 90%, 100% { transform: none; } 92% { transform: translate(-2px, 1px); } 94% { transform: translate(2px, -1px); } 96% { transform: translate(-1px, 1px); } 98% { transform: translate(1px, 0); } }
+.keypad.subtle .key.shake { animation: keyShake .45s linear !important; background: rgba(255,61,90,.22); box-shadow: inset 0 0 0 2px var(--red), 0 0 18px rgba(255,61,90,.45); color: #fff; }
+.keypad.rattle .slots { animation: keyShake .45s linear; }
+.keypad.rattle .slots span { box-shadow: inset 0 0 0 2px var(--red); }
+@keyframes keyShake { 0%, 100% { transform: translateX(0); } 12% { transform: translateX(-7px) rotate(-1deg); } 28% { transform: translateX(7px) rotate(1deg); } 44% { transform: translateX(-5px); } 60% { transform: translateX(5px); } 78% { transform: translateX(-2px); } }
+
+/* final lock: the dead digits are almost invisible - players have to squint */
+.keypad.subtle .keys .key:not(.key-wide) { color: rgba(255,255,255,.13) !important; text-shadow: none !important; }

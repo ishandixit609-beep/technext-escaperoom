@@ -67,7 +67,7 @@ function playStream(name, cfg) {
   g.gain.setValueAtTime(cfg.fadeInMs ? 0 : vol, t);
   if (cfg.fadeInMs) g.gain.linearRampToValueAtTime(vol, t + cfg.fadeInMs / 1000);
   try { c.createMediaElementSource(a).connect(g); g.connect(master); } catch { a.volume = Math.min(1, vol); }
-  a.addEventListener('error', () => { if (name !== 'ambient') synth(name); });
+  a.addEventListener('error', () => { console.warn('[sound] cannot load', cfg.file, '- is it in public/assets/sounds?'); if (name !== 'ambient') synth(name); });
   a.play().catch(() => {});
   streams[name] = { a, g };
 }
@@ -81,6 +81,7 @@ export function stop(name, fadeMs = 800) {
   s.g.gain.linearRampToValueAtTime(0, t + fadeMs / 1000);
   setTimeout(() => { s.a.pause(); s.a.src = ''; }, fadeMs + 60);
 }
+export const isPlaying = (name) => !!streams[name] && !streams[name].a.paused;
 export function stopAll() { Object.keys(streams).forEach((n) => stop(n, 400)); }
 
 export function play(name) {

@@ -6,7 +6,7 @@
 // Change a code by editing the string. The keypad automatically gets the
 // right number of slots (e.g. "12345" gives 5 slots).
 export const GAME_CONFIG = {
-  accessCode: "7394",   // Screen 1  - Code 1 (opens the Holocron)
+  accessCode: "7349",   // Screen 1  - Code 1 (opens the Holocron)
   laserCode: "427",     // Screen 3  - Code 2 (found under "the fallen one")
   yodaAnswer: "JEDI",   // Screen 4  - letters only, not case sensitive
   finalCode: "7492",    // Screen 6  - Final Holocron code (keypad is scrambled)
@@ -53,6 +53,8 @@ export const CHARACTER_PLACEMENTS = {
 // transition 5.3s (trimmed below), ambient 90s (looped), victory 5m46s.
 export const SOUNDS = {
   ambient:    { file: "/assets/sounds/ambient.mp3",    volume: 6,   loop: true, stream: true, fadeInMs: 4000 }, // very quiet file (-47 dB) so it is boosted
+  // Looping danger announcement on the first screen. It stops the moment players touch to continue.
+  announcement: { file: "/assets/sounds/announcement.mp3", volume: 1, loop: true, stream: true, fadeInMs: 300 },
   click:      { file: "/assets/sounds/click.mp3",      volume: 0.55 },
   error:      { file: "/assets/sounds/error.mp3",      volume: 0.8 },
   success:    { file: "/assets/sounds/success.mp3",    volume: 0.8 },

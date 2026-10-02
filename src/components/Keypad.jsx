@@ -19,6 +19,7 @@ export default function Keypad({ length, check, onSuccess, onFirstInput, success
   const [status, setStatus] = useState('idle');
   const [round, setRound] = useState(0);
   const [charge, setCharge] = useState(0);
+  const [shakeKey, setShakeKey] = useState(null);
   const first = useRef(true);
   const order = useMemo(() => (scramble ? shuffled(DIGITS) : DIGITS), [scramble, round]);
 
@@ -47,8 +48,12 @@ export default function Keypad({ length, check, onSuccess, onFirstInput, success
     if (k === 'ENTER') return submit();
     play('click');
     if (k === 'CLEAR') return setDigits('');
+    if (enterCount) { // final lock: digit keys are dead and rattle when touched
+      setShakeKey(k); setTimeout(() => setShakeKey(null), 450);
+      return;
+    }
     setDigits((d) => (d.length < length ? d + k : d));
-  }, [status, submit, length, onFirstInput]);
+  }, [status, submit, length, onFirstInput, enterCount]);
 
   useEffect(() => {
     const onKey = (e) => {
@@ -63,12 +68,12 @@ export default function Keypad({ length, check, onSuccess, onFirstInput, success
   }, [press, mode]);
 
   const Key = ({ k }) => (
-    <button className={`key ${k.length > 1 ? 'key-wide' : ''} ${k === 'ENTER' ? 'key-enter' : ''}`} onClick={() => press(k)}>
+    <button className={`key ${k.length > 1 ? 'key-wide' : ''} ${k === 'ENTER' ? 'key-enter' : ''} ${shakeKey === k ? 'shake' : ''}`} onClick={() => press(k)}>
       {k === 'ENTER' ? <>ENTER&nbsp;→</> : k}
     </button>
   );
   return (
-    <div className={`keypad ${status} ${mode} ${enterCount ? 'subtle' : ''}`}>
+    <div className={`keypad ${status} ${mode} ${enterCount ? 'subtle' : ''} ${shakeKey ? 'rattle' : ''}`}>
       {status === 'error' && <div className="flash-red" />}
       {status === 'ok' && dramatic && <div className="energy-pulse" />}
       <div className="slots">
